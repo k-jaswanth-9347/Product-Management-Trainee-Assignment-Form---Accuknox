@@ -10,3 +10,22 @@ WORKDIR /root/
 COPY --from=builder /app/date-time-server .
 EXPOSE 8080
 CMD ["./date-time-server"]
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: date-time-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: date-time-server
+  template:
+    metadata:
+      labels:
+        app: date-time-server
+    spec:
+      containers:
+      - name: date-time-server
+        image: <your-dockerhub-username>/my-date-time-server:latest
+        ports:
+        - containerPort: 8080
